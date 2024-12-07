@@ -1,0 +1,93 @@
+﻿
+
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = "mainLayout.cshtml";
+
+	var serviceInfoImage = Model?.Value<IPublishedContent>("serviceInfoImage");
+}
+
+@{
+	var selection = Umbraco.Content(Guid.Parse("c56d6fa1-4a92-461f-81e1-8623ff6537a7"))
+    .ChildrenOfType("serviceListItemPage")
+    .Where(x => x.IsVisible());
+}
+
+<section class="hero">
+	<div class="hero-background">
+		
+	</div>
+	<div class="container">
+		<div class="header">
+			<h2>@Model.Value("serviceHeadline")</h2>
+		</div>
+		<div class="path">
+			<p class="path-text">Home <i class="fa-solid fa-chevron-right"></i> Services </p>
+		</div>
+
+	</div>
+</section>
+<section class="our-service">
+    <div class="container">
+        
+            <div class="headline">
+                
+                <h2>We Provide The Solutions To Grow Your Business Faster</h2>
+            </div>
+        	<div class="services">
+				@foreach (var item in selection)
+				{
+					var itemImage = item.Value<IPublishedContent>("serviceListItemImage");
+
+					<a href="@itemImage.Url()">
+						<div class="item">
+							<div class="header">
+								<h3>@item.Name()</h3>
+							</div>
+							<div class="body">
+								<img src="@itemImage!.Url()" alt="service">
+							</div>
+							<div class="footer">
+								<p>@item.Value("serviceListItemText")</p>
+							</div>
+						</div>
+					</a>
+					
+				}
+			</div>
+            
+                
+        
+    </div>
+</section>
+<section class="info">
+	<div class="container">
+		<div class="left-image">
+			<img src="@serviceInfoImage.Url()" alt="/">
+		</div>
+		<div class="right-text">
+			<div class="header">
+				<h2>@Model.Value("serviceInfoHeadline")</h2>
+			</div>
+			<div class="contact-info">
+				<div class="info-1"
+					<p class="header"><i class="fa-solid fa-location-dot"></i> @Model.Value("serviceInfoLocationHeader")</p>
+					<p>@Model.Value("serviceInfoLocationText") </p>
+				</div>
+
+				<div class="info-2"
+					<p class="header"><i class="fa-solid fa-phone"></i> @Model.Value("serviceInfoPhoneHeader")</p>
+					<p>@Model.Value("serviceInfoPhoneText")</p>
+				</div>
+
+				<div class="info-3"
+					<p class="header"><i class="fa-regular fa-envelope"></i> @Model.Value("serviceInfoEmailHeader")</p>
+					<p>@Model.Value("serviceInfoEmailText")</p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+

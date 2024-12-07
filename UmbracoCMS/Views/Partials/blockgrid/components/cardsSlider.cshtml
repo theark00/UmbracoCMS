@@ -1,0 +1,35 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    var serviceCard = Model.Value<IEnumerable<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>>("cardsSlider");
+    
+}
+
+@if (cards != null) 
+{
+    <div class="card">
+        <div class="card-body">
+            @foreach (var item in Cards)
+            {
+                var cardHeadline = Model.Content?.Value<string>("cardHeadline") ?? "";
+                var cardImage = Model.Content?.Value<IPublishedContent>("cardImage")?.Url() ?? "";
+                var cardText = Model.Content?.Value<string>("cardText") ?? "";
+
+                @if (!string.IsNullOrEmpty(cardHeadline))
+                {
+                    <h5 class="card-title">@cardHeadline</h5>
+                }
+                @if (!string.IsNullOrEmpty(cardImage))
+                {
+                    <img class="card-image" src="@cardImage" alt="@cardHeadline" />
+                }
+                @if (!string.IsNullOrEmpty(cardText))
+                {
+                    <p class="card-text">@cardText</p>
+                }
+            }
+        
+        </div>
+    </div>
+}

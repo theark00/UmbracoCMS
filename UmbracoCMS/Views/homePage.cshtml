@@ -1,0 +1,233 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using contentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+
+@{
+	Layout = "mainLayout.cshtml";
+	
+
+	var backgroundImage = Model?.Value<IPublishedContent>("heroBackgroundImage")?.Url() ?? "";
+	var signatureImage = Model?.Value<IPublishedContent>("aboutUsSignatureImage")?.Url() ?? "";
+   	var selectedImage = Model?.Value<IPublishedContent>("selectedImage")?.Url() ?? "";
+	
+	var successStoryImage = Model?.Value<IPublishedContent>("successStoryImage");
+
+	var trustedBackgroundImage = Model?.Value<IPublishedContent>("trustedBackgroundImage");
+
+	var trustedImage = Model?.Value<IPublishedContent>("trustedImage");
+	
+	var brand1 = Model?.Value<IPublishedContent>("brand1");
+	var brand2 = Model?.Value<IPublishedContent>("brand2");
+	var brand3 = Model?.Value<IPublishedContent>("brand3");
+	var brand4 = Model?.Value<IPublishedContent>("brand4");
+	var brand5 = Model?.Value<IPublishedContent>("brand5");
+	var brand6 = Model?.Value<IPublishedContent>("brand6");
+}
+
+@{
+	var service_selection = Umbraco.Content(Guid.Parse("c56d6fa1-4a92-461f-81e1-8623ff6537a7"))
+    .ChildrenOfType("serviceListItemPage")
+    .Where(x => x.IsVisible());
+}
+
+@{
+	var project_selection = Umbraco.Content(Guid.Parse("b7bed92c-a371-46dc-8c0f-d5e3f4e8dfcb"))
+    .ChildrenOfType("projectListItemPage")
+    .Where(x => x.IsVisible());
+}
+
+<section id="hero-slider" class="hero">
+	<img class="heroBackgroundImage" src="@backgroundImage" style="background-size: cover; background-position: 60%" alt="@Model.Value("heroBackgroundImage")"/>
+	<div class="container">
+		<div class="hero-content">
+			<h1 class="headline">@Model?.Value("heroHeadline")</h1>
+			<p class="ingress">@Model?.Value("heroText")</p>
+			<div>
+				<a href="@Model?.Value("heroButtonUrl")" class="btn btn-primary">@Model?.Value("heroButtonText")</a>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+<section id="about-us" class="about-us">
+	
+	<div class="container">
+		<div class="content">
+			<div class="headline">
+				<h5>@Model.Value("aboutUsSectionTitle")</h5>
+				<h2>@Model.Value("aboutUsHeadline")</h2>
+				
+			</div>
+			<blockquote class="quote">@Model.Value("aboutUsQuotation")</blockquote>
+			<p>@Model.Value("aboutUsParagraph")</p>
+			<div class="signature-container">
+				<div class="signature"> 
+					<img class="signature-image" src="@signatureImage" alt="@Model.Value("aboutUsSignature")">
+					<div class="clarification">
+						<p class="name">@Model.Value("aboutUsSignature")</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="form-container">
+			<form class="callback-request-form">
+				<div class="header">
+					<h2>Request a call back</h2>
+				</div>
+				<div class="body">
+					<p>Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat</p>
+					<input type="text" placeholder="Name">
+					<input type="text" placeholder="Email address">
+					<input type="text" placeholder="Phone">
+					<select id="customSelect">
+						<option>Financial consulting</option>
+						<option>Risk Management</option>
+						<option>Bonds & Commodities</option>
+						<option>Assurance & Audits</option>
+					</select>
+					<button type="submit" class="btn btn-accent btn-wide">Submit</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+</section>
+
+<section class="our-service">
+    <div class="container">
+        
+            <div class="headline">
+                <h5>@Model.Value("ourServicesPageTitle")</h5>
+                <h2>@Model.Value("ourServiceHeadline")</h2>
+            </div>
+        	<div class="services">
+				@foreach (var item in service_selection)
+				{
+					var service_itemImage = item.Value<IPublishedContent>("serviceListItemImage");
+
+					<a href="@item.Url()">
+						<div class="item">
+							<div class="header">
+								<h3>@item.Name()</h3>
+							</div>
+							<div class="body">
+								<img src="@service_itemImage!.Url()" alt="service">
+							</div>
+							<div class="footer">
+								<p>@item.Value("serviceListItemText")</p>
+							</div>
+						</div>
+					</a>
+					
+				}
+			</div>
+            
+                
+        
+    </div>
+</section>
+
+
+<section class="trusted">
+	<div class="background"><img class="background-image" src="@trustedBackgroundImage.Url()" alt="background image"></div>
+	<div class="container">
+		<div class="headline">
+			<h2>@Model.Value("trustedFirstTitle")<span>@Model.Value("trustedSecondTitle")</span></h2>
+		</div>
+		<p>@Model.Value("trustedText")</p>
+		<a href="@Model.Value("trustedButtonLink")" class="btn btn-primary">@Model.Value("trustedButtonText")</a>
+		<div class="image-container">
+			<img src="@trustedImage.Url()" alt="">
+		</div>
+	</div>
+</section>
+
+<section class="success-story">
+	<div class="background"></div>
+	<div class="container">
+		<div class="headline">
+			<h5>@Model.Value("successStorySectionTitle")</h5>
+			<h2>@Model.Value("successStoryTitle")</h2>
+		</div>
+		<div class="stats">
+
+			<div class="stat">
+				<span class="number">@Model.Value("successStoryStatsNumber1Numbers")</span>
+				<span class="description">@Model.Value("successStoryStatsNumber1Text")</span>
+			</div>
+
+			<div class="stat">
+				<span class="number">@Model.Value("successStoryStatsNumber2Numbers")</span>
+				<span class="description">@Model.Value("successStoryStatsNumber2Text")</span>
+			</div>
+
+			<div class="stat">
+				<span class="number">@Model.Value("successStoryStatsNumber3Numbers")</span>
+				<span class="description">@Model.Value("successStoryStatsNumber3Text")</span>
+			</div>
+				
+		</div>
+		<div class="video">
+			<img src="@successStoryImage.Url()" alt="Video Thumbnail">
+		</div>
+	</div>
+</section>
+
+
+<section class="recent-projects">
+	<div class="container">
+		<div class="headline">
+			<h5>OUR PROJECTS</h5>
+			<h2>Recent projects</h2>
+		</div>
+	</div>
+
+	<div class="projects">
+
+				@foreach (var item in project_selection)
+				{
+					var project_itemImage = item.Value<IPublishedContent>("projectItemImage");
+
+					<a href="@item.Url()">
+						<div class="item">
+							<div class="body">
+								<img src="@project_itemImage!.Url()" alt="service">
+							</div>
+							<div class="footer">
+								<div class="project-information">
+									<h4 class="project-title">@item.Name()</h4>
+									<p class="project-category">@item.Value("projectItemCategory")</p>
+								</div>
+								
+							</div>
+						</div>
+					</a>
+					
+				}
+	
+	
+
+
+
+	</div>
+</section>
+
+
+<section class="image-slider">
+	<div class="container">
+		<a class="item" href="#"><img src="@brand1.Url()" alt="partner-1"></a>
+		<a class="item" href="#"><img src="@brand2.Url()" alt="partner-2"></a>
+		<a class="item" href="#"><img src="@brand3.Url()" alt="partner-3"></a>
+		<a class="item" href="#"><img src="@brand4.Url()" alt="partner-4"></a>
+		<a class="item" href="#"><img src="@brand5.Url()" alt="partner-5"></a>
+		<a class="item" href="#"><img src="@brand6.Url()" alt="partner-6"></a>
+	</div>
+</section>
+
+
+
